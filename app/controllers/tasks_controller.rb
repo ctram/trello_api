@@ -15,8 +15,8 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    @task = @task.update!(task_params)
-    render json: @task
+    @task.update!(task_params)
+    render json: @task # return object after update
   end
 
   def destroy

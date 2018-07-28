@@ -15,8 +15,8 @@ class ColumnsController < ApplicationController
 
   def update
     @column = Column.find(params[:id])
-    @column = @column.update!(column_params)
-    render json: @column
+    @column.update!(column_params)
+    render json: @column # return object after update
   end
 
   def destroy

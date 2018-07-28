@@ -15,8 +15,8 @@ class BoardsController < ApplicationController
 
   def update
     @board = Board.find(params[:id])
-    @board = @board.update!(board_params)
-    render json: @board
+    @board.update!(board_params)
+    render json: @board # return object after update
   end
 
   def destroy
