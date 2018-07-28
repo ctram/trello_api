@@ -5,7 +5,7 @@ class ColumnsController < ApplicationController
 
   def create
     @column = Column.create(column_params)
-    render json: @column
+    render json: @column, status: 201
   end
 
   def show

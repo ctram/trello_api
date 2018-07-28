@@ -5,7 +5,7 @@ class BoardsController < ApplicationController
 
   def create
     @board = Board.create(board_params)
-    render json: @board
+    render json: @board, status: 201
   end
 
   def show

@@ -5,7 +5,7 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.create(task_params)
-    render json: @task
+    render json: @task, status: 201
   end
 
   def show
