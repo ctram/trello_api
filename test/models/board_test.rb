@@ -1,7 +1,9 @@
-require 'test_helper'
+require_relative '../test_helper'
+require_relative '../../app/models/board'
 
-class BoardTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+RSpec.describe 'Board' do
+  it 'requires name and title' do
+    board = Board.new
+    expect(board.valid?).to be false
+  end
 end
