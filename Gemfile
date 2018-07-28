@@ -42,3 +42,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "pg", "~> 1.0"
 gem "rspec", "~> 3.7"
+
+gem "rspec-rails", "~> 3.7"
