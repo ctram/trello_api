@@ -36,7 +36,7 @@ RSpec.shared_examples 'CRUD actions' do |model, parent_name = nil|
     send("#{object.class.to_s.downcase}_url", object.id)
   end
 
-    describe 'check authorization' do
+  describe 'check authorization' do
     include_examples 'check authorization', :index, model
     include_examples 'check authorization', :create, model
     include_examples 'check authorization', :show, model
@@ -69,9 +69,10 @@ RSpec.shared_examples 'CRUD actions' do |model, parent_name = nil|
     params = {}
     params[model_name] = { title: 'Updated title', name: 'Updated name' }
     put path2(model.first), params: params, headers: authorization_headers
-    expect(response.body).to eq(model.first.to_json)
     expect(response).to have_http_status(200)
     expect(model.count).to be 3
+    expect(JSON.parse(response.body)['title']).to eq('Updated title')
+    expect(JSON.parse(response.body)['name']).to eq('Updated name')
     expect(model.first.name).to eq('Updated name')
     expect(model.first.title).to eq('Updated title')
   end
