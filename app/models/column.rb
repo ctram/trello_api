@@ -5,6 +5,10 @@ class Column < ApplicationRecord
   has_many :tasks, -> { order 'position ASC' }, dependent: :destroy
   belongs_to :board
 
+  before_validation do
+    ensure_has_position
+  end
+  
   def siblings
     board.columns
   end

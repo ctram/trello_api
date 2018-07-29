@@ -5,6 +5,10 @@ class Task < ApplicationRecord
   has_many :comments, dependent: :destroy
   belongs_to :column
 
+  before_validation do
+    ensure_has_position
+  end
+  
   def siblings
     column.tasks
   end

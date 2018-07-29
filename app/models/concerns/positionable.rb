@@ -8,7 +8,7 @@ module Positionable
   end
 
   def move_to(new_position)
-    raise ArgumentError, 'Position must be integer' unless position.is_a?(Integer)
+    raise ArgumentError, 'Argument must be an integer' unless new_position.is_a?(Integer)
     orig_position = position
     num_items = siblings.length
 
