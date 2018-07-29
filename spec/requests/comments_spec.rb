@@ -1,6 +1,5 @@
 require 'rails_helper'
 require_relative '../../app/models/comment'
-require_relative '../../app/models/task'
 require_relative '../shared/contexts/authorization_headers'
 require_relative '../shared/contexts/test_objects'
 require_relative '../shared/examples/check_authorization'

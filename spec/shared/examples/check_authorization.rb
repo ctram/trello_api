@@ -26,7 +26,7 @@ RSpec.shared_examples 'check authorization' do |request_action, model|
     }[request_action]
   end
 
-  it 'receives a 401 unless authenticated' do
+  it "#{request_action} receives a 401 unless authorized" do
     path = %i[index create].include?(request_action) ? paths(model).first : paths(model).last
     method(method_verb(request_action)).call(path)
     expect(response.status).to be 401

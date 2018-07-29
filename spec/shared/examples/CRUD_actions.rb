@@ -4,6 +4,9 @@ require_relative '../contexts/test_objects'
 require_relative './check_authorization'
 
 RSpec.shared_examples 'CRUD actions' do |model, parent_name = nil|
+  include_context 'authorization headers'
+  include_context 'test objects'
+
   let(:model_name) { model.to_s.downcase }
   let(:model_name_plural) { model_name + 's' }
   let(:parent) do
@@ -33,14 +36,13 @@ RSpec.shared_examples 'CRUD actions' do |model, parent_name = nil|
     send("#{object.class.to_s.downcase}_url", object.id)
   end
 
-  include_examples 'check authorization', :index, model
-  include_examples 'check authorization', :create, model
-  include_examples 'check authorization', :show, model
-  include_examples 'check authorization', :update, model
-  include_examples 'check authorization', :destroy, model
-
-  include_context 'authorization headers'
-  include_context 'test objects'
+    describe 'check authorization' do
+    include_examples 'check authorization', :index, model
+    include_examples 'check authorization', :create, model
+    include_examples 'check authorization', :show, model
+    include_examples 'check authorization', :update, model
+    include_examples 'check authorization', :destroy, model
+  end
 
   it 'GET index' do
     get path1(model, parent), params: {}, headers: authorization_headers
