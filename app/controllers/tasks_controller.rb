@@ -13,11 +13,18 @@ class TasksController < ApplicationController
     task = Task.find(params[:id])
     render json: task
   end
-
+  
   def update
     task = Task.find(params[:id])
-    task.update!(task_params)
-    render json: task # return object after update
+    begin
+      ActiveRecord::Base.transaction do
+        task.update!(task_params)
+        task.update_sibling_positions if task.position_previously_changed?
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      return render(status: 422, json: { error: e })
+    end
+    render json: task
   end
 
   def destroy
