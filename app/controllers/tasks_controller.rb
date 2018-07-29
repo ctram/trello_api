@@ -13,7 +13,7 @@ class TasksController < ApplicationController
     task = Task.find(params[:id])
     render json: task
   end
-  
+
   def update
     task = Task.find(params[:id])
     begin
