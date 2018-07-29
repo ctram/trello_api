@@ -20,12 +20,16 @@ RSpec.shared_examples 'update position' do |child_class, parent_type|
     parent.send(child_class.to_s.downcase + 's')
   end
 
+  def resource_url(model)
+    send(model.class.to_s.downcase + '_url', model.id)
+  end
+
   it 'cannot move below position 0' do
     children = children(child_class, parent)
     model = children[2]
     params = {}
     params[model.class.to_s.downcase] = { position: -1 }
-    put column_url(model.id), params: params, headers: authorization_headers
+    put resource_url(model), params: params, headers: authorization_headers
     expect(response).to have_http_status(422)
   end
 
@@ -34,7 +38,7 @@ RSpec.shared_examples 'update position' do |child_class, parent_type|
     model = children[2]
     params = {}
     params[model.class.to_s.downcase] = { position: 5 }
-    put column_url(model.id), params: params, headers: authorization_headers
+    put resource_url(model), params: params, headers: authorization_headers
     expect(response).to have_http_status(422)
   end
 
@@ -43,7 +47,7 @@ RSpec.shared_examples 'update position' do |child_class, parent_type|
     model = children[2]
     params = {}
     params[model.class.to_s.downcase] = { position: 0 }
-    put column_url(model.id), params: params, headers: authorization_headers
+    put resource_url(model), params: params, headers: authorization_headers
     children.reload
     expect(response).to have_http_status(200)
     expect(children[0].name).to eq('prev 2')
@@ -59,7 +63,7 @@ RSpec.shared_examples 'update position' do |child_class, parent_type|
     model = children[4]
     params = {}
     params[model.class.to_s.downcase] = { position: 0 }
-    put column_url(model.id), params: params, headers: authorization_headers
+    put resource_url(model), params: params, headers: authorization_headers
     children.reload
     expect(response).to have_http_status(200)
     expect(children[0].name).to eq('prev 4')
@@ -75,7 +79,7 @@ RSpec.shared_examples 'update position' do |child_class, parent_type|
     model = children[0]
     params = {}
     params[model.class.to_s.downcase] = { position: 4 }
-    put column_url(model.id), params: params, headers: authorization_headers
+    put resource_url(model), params: params, headers: authorization_headers
     children.reload
     expect(response).to have_http_status(200)
     expect(children[0].name).to eq('prev 1')
