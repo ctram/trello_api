@@ -44,3 +44,5 @@ gem "pg", "~> 1.0"
 gem "rspec", "~> 3.7"
 
 gem "rspec-rails", "~> 3.7"
+
+gem "factory_bot", "~> 4.10"

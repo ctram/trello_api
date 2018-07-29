@@ -4,7 +4,8 @@ class ColumnsController < ApplicationController
   end
 
   def create
-    @column = Column.create(column_params)
+    @column = Column.new(board_id: params[:board_id])
+    @column.update(column_params)
     render json: @column, status: 201
   end
 

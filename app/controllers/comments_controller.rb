@@ -4,7 +4,8 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = Comment.create(comment_params)
+    @comment = Comment.new(task_id: params[:task_id])
+    @comment.update(comment_params)
     render json: @comment, status: 201
   end
 
