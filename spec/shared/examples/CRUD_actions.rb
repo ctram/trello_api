@@ -23,9 +23,6 @@ RSpec.shared_examples 'CRUD actions' do |model, parent_name = nil|
     end
   end
 
-  after(:example) do
-    model.destroy_all
-  end
 
   def path1(model, parent = nil)
     return boards_url if model == Board

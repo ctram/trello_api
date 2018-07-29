@@ -2,8 +2,6 @@ require_relative '../helpers/test_helper'
 require_relative '../../app/models/comment'
 
 RSpec.describe Comment do
-  after(:example) { Comment.destroy_all }
-
   let(:comment) { Comment.create(content: 'blah blah') }
 
   it 'is created with content' do

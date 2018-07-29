@@ -11,10 +11,6 @@ RSpec.shared_examples 'update position' do |child_class, parent|
     end
   end
 
-  after(:example) do
-    parent.class.destroy_all
-    child_class.destroy_all
-  end
 
   def children
     parent.send(child_class.to_s.downcase + 's')

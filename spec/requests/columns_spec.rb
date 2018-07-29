@@ -17,10 +17,6 @@ RSpec.describe 'Columns', type: :request do
       end
     end
 
-    after(:example) do
-      Board.destroy_all
-      Column.destroy_all
-    end
 
     it 'cannot move below position 0' do
       column = board.columns[2]

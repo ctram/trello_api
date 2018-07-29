@@ -3,10 +3,6 @@ RSpec.shared_examples 'basic model actions' do |model|
   let(:title) { 'My Title' }
   let(:instance) { model.create(name: name, title: title) }
 
-  after(:example) do
-    model.destroy_all
-  end
-
   it 'is created with name and title' do
     expect(instance.name).to eq(name)
     expect(instance.title).to eq(title)
