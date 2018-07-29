@@ -1,5 +1,7 @@
-RSpec.shared_examples 'update position' do |child_class, parent|
+RSpec.shared_examples 'update position' do |child_class, parent_type|
 
+  let(:parent) { FactoryBot.create parent_type }
+  
   before(:example) do
     parent_name = parent.class.to_s.downcase
 
@@ -11,26 +13,35 @@ RSpec.shared_examples 'update position' do |child_class, parent|
     end
   end
 
-
-  def children
+  def children(child_class, parent)
     parent.send(child_class.to_s.downcase + 's')
   end
 
   it 'cannot move below position 0' do
+    children = children(child_class, parent)
     model = children[2]
-    put column_url(model), params: { model: { position: -1 } }, headers: authorization_headers
+    params = {}
+    params[model.class.to_s.downcase] = { position: -1 }
+    byebug
+    put column_url(model.id), params: params, headers: authorization_headers
     expect(response).to have_http_status(422)
   end
 
   it 'cannot move to position greater than list length' do
+    children = children(child_class, parent)
     model = children[2]
-    put column_url(model), params: { model: { position: 5 } }, headers: authorization_headers
+    params = {}
+    params[model.class.to_s.downcase] = { position: 5 }
+    put column_url(model.id), params: params, headers: authorization_headers
     expect(response).to have_http_status(422)
   end
 
   it 'moves from 2 to 0 and its sibling positions are updated' do
+    children = children(child_class, parent)
     model = children[2]
-    put column_url(model), params: { model: { position: 0 } }, headers: authorization_headers
+    params = {}
+    params[model.class.to_s.downcase] = { position: 0 }
+    put column_url(model.id), params: params, headers: authorization_headers
     children.reload
     expect(response).to have_http_status(200)
     expect(children[0].name).to eq('prev 2')
@@ -42,8 +53,11 @@ RSpec.shared_examples 'update position' do |child_class, parent|
   end
 
   it 'moves from 4 to 0 and its sibling positions are updated' do
+    children = children(child_class, parent)
     model = children[4]
-    put column_url(model), params: { model: { position: 0 } }, headers: authorization_headers
+    params = {}
+    params[model.class.to_s.downcase] = { position: 0 }
+    put column_url(model.id), params: params, headers: authorization_headers
     children.reload
     expect(response).to have_http_status(200)
     expect(children[0].name).to eq('prev 4')
@@ -55,8 +69,11 @@ RSpec.shared_examples 'update position' do |child_class, parent|
   end
 
   it 'moves from 0 to 4 and its sibling positions are updated' do
+    children = children(child_class, parent)
     model = children[0]
-    put column_url(model), params: { model: { position: 4 } }, headers: authorization_headers
+    params = {}
+    params[model.class.to_s.downcase] = { position: 4 }
+    put column_url(model.id), params: params, headers: authorization_headers
     children.reload
     expect(response).to have_http_status(200)
     expect(children[0].name).to eq('prev 1')
