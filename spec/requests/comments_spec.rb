@@ -30,7 +30,7 @@ RSpec.describe 'Comments', type: :request do
   it 'GET index' do
     get "/tasks/#{task.id}/comments", params: {}, headers: authorization_headers
     expect(response).to have_http_status(200)
-    expect(JSON.parse(response.body).count).to be 3
+    expect(JSON.parse(response.body).count).to be 4
     expect(response.body).to eq(Comment.all.to_json)
   end
 
@@ -43,7 +43,7 @@ RSpec.describe 'Comments', type: :request do
     post "/tasks/#{task.id}/comments", params: { comment: { content: 'Mr. Wayne' } }, headers: authorization_headers
     expect(response.body).to eq(Comment.last.to_json)
     expect(response).to have_http_status(201)
-    expect(Comment.count).to be 4
+    expect(Comment.count).to be 5
   end
 
   it 'PUT update' do
@@ -51,14 +51,14 @@ RSpec.describe 'Comments', type: :request do
     expect(JSON.parse(response.body)['content']).to eq('Mr. Wayne')
     expect(Comment.first.content).to eq('Mr. Wayne')
     expect(response).to have_http_status(200)
-    expect(Comment.count).to be 3
+    expect(Comment.count).to be 4
   end
 
   it 'DELETE destroy' do
     delete "/comments/#{Comment.all.first.id}", params: {}, headers: authorization_headers
     expect(response).to have_http_status(204)
     expect(response.body).to be_empty
-    expect(Comment.count).to be 2
+    expect(Comment.count).to be 3
     expect(Comment.where(content: 'One').count).to be 0
   end
 end
