@@ -41,7 +41,7 @@ RSpec.shared_examples 'CRUD actions' do |child_class, parent_type = nil|
   end
 
   it 'GET index' do
-    byebug
+    
     get path1(child_class, parent), params: {}, headers: authorization_headers
     expect(response).to have_http_status(200)
     expect(JSON.parse(response.body).count).to be 4

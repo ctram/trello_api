@@ -22,7 +22,7 @@ RSpec.shared_examples 'update position' do |child_class, parent_type|
     model = children[2]
     params = {}
     params[model.class.to_s.downcase] = { position: -1 }
-    byebug
+    
     put column_url(model.id), params: params, headers: authorization_headers
     expect(response).to have_http_status(422)
   end
