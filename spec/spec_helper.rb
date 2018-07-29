@@ -14,12 +14,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  config.before(:each) do
+  config.after(:example) do
     Board.destroy_all
     Column.destroy_all
     Task.destroy_all
     Comment.destroy_all
   end
+
+  # config.fail_fast = 0
   
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
