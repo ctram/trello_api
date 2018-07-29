@@ -6,7 +6,7 @@ class TasksController < ApplicationController
   def create
     task = Task.new(column_id: params[:column_id])
     task.update(task_params)
-    render json: ask, status: 201
+    render json: task, status: 201
   end
 
   def show
