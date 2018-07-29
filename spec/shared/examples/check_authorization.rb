@@ -1,12 +1,4 @@
 RSpec.shared_examples 'check authorization' do |request_action, model_class|
-  let(:title) { 'title'.freeze }
-  let(:name) { 'name'.freeze }
-
-  let(:board) { Board.create(title: title, name: name ) }
-  let(:column) { board.columns.create(title: title, name: name) }
-  let(:task) { column.tasks.create(title: title, name: name) }
-  let(:comment) { task.comments.create(content: 'hehe') }
-
   def paths(model_class)
     {
       board: %w[/boards /boards/1],
