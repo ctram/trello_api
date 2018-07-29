@@ -7,16 +7,18 @@ RSpec.shared_examples 'CRUD actions' do |child_class, parent_type = nil|
 
   let(:model_name)        { child_class.to_s.downcase }
   let(:model_name_plural) { model_name + 's' }
-  let(:parent)            { FactoryBot.create parent_type }
+  let(:parent)            { parent_type && FactoryBot.create(parent_type) }
 
   before(:example) do
-    puts 'called in example'
-    puts "before num columns: #{parent.columns.length}"
-    %w[one two three].map do |num|
-      parent.send(child_class.to_s.downcase + 's').create(title: num, name: num)
+    if parent
+      p = proc { |num |parent.send(child_class.to_s.downcase + 's').create(title: num, name: num) }
+    else
+      p = proc { |num| child_class.create(title: num, name: num) }
     end
-    puts "after num columns: #{parent.columns.length}"
-    puts "parent id : #{parent.id}"
+    
+    %w[one two three].map do |num|
+      p.call(num)
+    end
   end
 
   def path1(child_class, parent = nil)
@@ -37,7 +39,6 @@ RSpec.shared_examples 'CRUD actions' do |child_class, parent_type = nil|
   end
 
   it 'GET index' do
-    puts "parent id : #{parent.id}"
     get path1(child_class, parent), params: {}, headers: authorization_headers
     expect(response).to have_http_status(200)
     expect(JSON.parse(response.body).length).to be 3
