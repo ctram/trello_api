@@ -6,7 +6,7 @@ class Task < ApplicationRecord
   belongs_to :column
 
   before_validation do
-    ensure_has_position
+    ensure_position_exists
   end
   
   def siblings

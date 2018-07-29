@@ -6,9 +6,9 @@ class Column < ApplicationRecord
   belongs_to :board
 
   before_validation do
-    ensure_has_position
+    ensure_position_exists
   end
-  
+
   def siblings
     board.columns
   end
