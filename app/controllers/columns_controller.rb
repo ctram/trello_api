@@ -16,25 +16,16 @@ class ColumnsController < ApplicationController
 
   def update
     column = Column.find(params[:id])
-    result = ActiveRecord::Base.transaction do
-      column.update!(cloned_column_params)
-      if column.position_previously_changed?
-        return update_sibling_positions(column.position)
-      end
+    ActiveRecord::Base.transaction do
+      column.update!(column_params)
+      column.update_sibling_positions if column.position_previously_changed?
     end
-    if result
-      return render json: column # return object after update
-    end
-    render status: 400
+    render json: column
   end
 
   def destroy
     column = Column.find(params[:id])
     column.destroy
-  end
-
-  def update_sibling_positions(position)
-    column.update_sibling_positions(position)
   end
 
   private
