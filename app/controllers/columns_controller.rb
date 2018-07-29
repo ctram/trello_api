@@ -16,9 +16,13 @@ class ColumnsController < ApplicationController
 
   def update
     column = Column.find(params[:id])
-    ActiveRecord::Base.transaction do
-      column.update!(column_params)
-      column.update_sibling_positions if column.position_previously_changed?
+    begin
+      ActiveRecord::Base.transaction do
+        column.update!(column_params)
+        column.update_sibling_positions if column.position_previously_changed?
+      end
+    rescue ActiveRecord::RecordInvalid => e
+      return render(status: 422, json: { error: e })
     end
     render json: column
   end
