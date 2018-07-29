@@ -1,6 +1,6 @@
 RSpec.shared_context 'test objects' do
   let(:comment) { FactoryBot.create :comment }
-  let(:task) { comment.task }
-  let(:column) { task.column }
-  let(:board) { column.board }
+  let(:task)    { FactoryBot.create :task }
+  let(:column)  { FactoryBot.create :column }
+  let(:board)   { FactoryBot.create :board }
 end
