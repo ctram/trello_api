@@ -4,24 +4,24 @@ class BoardsController < ApplicationController
   end
 
   def create
-    @board = Board.create(board_params)
-    render json: @board, status: 201
+    board = Board.create(board_params)
+    render json: board, status: 201
   end
 
   def show
-    @board = Board.find(params[:id])
-    render json: @board
+    board = Board.find(params[:id])
+    render json: board
   end
 
   def update
-    @board = Board.find(params[:id])
-    @board.update!(board_params)
-    render json: @board # return object after update
+    board = Board.find(params[:id])
+    board.update!(board_params)
+    render json: board # return object after update
   end
 
   def destroy
-    @board = Board.find(params[:id])
-    @board.destroy
+    board = Board.find(params[:id])
+    board.destroy
   end
 
   private

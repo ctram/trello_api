@@ -4,25 +4,25 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = Comment.new(task_id: params[:task_id])
-    @comment.update(comment_params)
-    render json: @comment, status: 201
+    comment = Comment.new(task_id: params[:task_id])
+    comment.update(comment_params)
+    render json: comment, status: 201
   end
 
   def show
-    @comment = Comment.find(params[:id])
-    render json: @comment
+    comment = Comment.find(params[:id])
+    render json: comment
   end
 
   def update
-    @comment = Comment.find(params[:id])
-    @comment.update!(comment_params)
-    render json: @comment # return object after update
+    comment = Comment.find(params[:id])
+    comment.update!(comment_params)
+    render json: comment # return object after update
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
-    @comment.destroy
+    comment = Comment.find(params[:id])
+    comment.destroy
   end
 
   private
