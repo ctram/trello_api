@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
   before_action :check_authorization
   
-  AUTHORIZED_API_TOKENS = %w[ehzLoAaX7hVUxJ2D3vLkxQ].freeze # ehzLoAaX7hVUxJ2D3vLkxQ
+  AUTHORIZED_API_TOKENS = %w[ehzLoAaX7hVUxJ2D3vLkxQ].freeze # because this is a demo, keep tokens here.
 
   def check_authorization
     render status: 401 unless authorized?
