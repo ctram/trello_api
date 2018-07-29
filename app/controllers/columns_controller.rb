@@ -16,9 +16,16 @@ class ColumnsController < ApplicationController
 
   def update
     column = Column.find(params[:id])
-    column.update!(column_params)
-    column.update_sibling_positions(column.position)
-    render json: column # return object after update
+    result = ActiveRecord::Base.transaction do
+      column.update!(cloned_column_params)
+      if column.position_previously_changed?
+        return update_sibling_positions(column.position)
+      end
+    end
+    if result
+      return render json: column # return object after update
+    end
+    render status: 400
   end
 
   def destroy
@@ -26,16 +33,13 @@ class ColumnsController < ApplicationController
     column.destroy
   end
 
-  def update_position
-    new_position = column_params[:position]
-    column = Column.find(params[:id])
-    column.move_to(new_position)
-    render json: column
+  def update_sibling_positions(position)
+    column.update_sibling_positions(position)
   end
 
   private
 
   def column_params
-    params.require(:column).permit(:title, :name)
+    params.require(:column).permit(:title, :name, :position)
   end
 end
