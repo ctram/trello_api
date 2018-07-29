@@ -1,26 +1,22 @@
 require 'rails_helper'
 require_relative '../contexts/authorization_headers'
-require_relative '../contexts/test_objects'
 require_relative './check_authorization'
 
 RSpec.shared_examples 'CRUD actions' do |child_class, parent_type = nil|
   include_context 'authorization headers'
-  include_context 'test objects'
 
-  let(:model_name) { child_class.to_s.downcase }
+  let(:model_name)        { child_class.to_s.downcase }
   let(:model_name_plural) { model_name + 's' }
-  let(:parent) do
-    {
-      board: board,
-      column: column,
-      task: task
-    }[parent_type]
-  end
+  let(:parent)            { FactoryBot.create parent_type }
 
   before(:example) do
+    puts 'called in example'
+    puts "before num columns: #{parent.columns.length}"
     %w[one two three].map do |num|
-      FactoryBot.create(child_class.to_s.downcase.to_sym, title: num, name: num)
+      parent.send(child_class.to_s.downcase + 's').create(title: num, name: num)
     end
+    puts "after num columns: #{parent.columns.length}"
+    puts "parent id : #{parent.id}"
   end
 
   def path1(child_class, parent = nil)
@@ -41,10 +37,10 @@ RSpec.shared_examples 'CRUD actions' do |child_class, parent_type = nil|
   end
 
   it 'GET index' do
-    
+    puts "parent id : #{parent.id}"
     get path1(child_class, parent), params: {}, headers: authorization_headers
     expect(response).to have_http_status(200)
-    expect(JSON.parse(response.body).count).to be 4
+    expect(JSON.parse(response.body).length).to be 3
     expect(response.body).to eq(child_class.all.to_json)
   end
 
@@ -59,7 +55,7 @@ RSpec.shared_examples 'CRUD actions' do |child_class, parent_type = nil|
     post path1(child_class, parent), params: params, headers: authorization_headers
     expect(response.body).to eq(child_class.last.to_json)
     expect(response).to have_http_status(201)
-    expect(child_class.count).to be 5
+    expect(child_class.all.length).to be 4
   end
 
   it 'PUT update' do
@@ -67,7 +63,7 @@ RSpec.shared_examples 'CRUD actions' do |child_class, parent_type = nil|
     params[model_name] = { title: 'Updated title', name: 'Updated name' }
     put path2(child_class.first), params: params, headers: authorization_headers
     expect(response).to have_http_status(200)
-    expect(child_class.count).to be 3
+    expect(child_class.all.length).to be 3
     expect(JSON.parse(response.body)['title']).to eq('Updated title')
     expect(JSON.parse(response.body)['name']).to eq('Updated name')
     expect(child_class.first.name).to eq('Updated name')
@@ -78,7 +74,7 @@ RSpec.shared_examples 'CRUD actions' do |child_class, parent_type = nil|
     delete path2(child_class.first), params: {}, headers: authorization_headers
     expect(response).to have_http_status(204)
     expect(response.body).to be_empty
-    expect(child_class.count).to be 2
-    expect(child_class.where(title: 'One').count).to be 0
+    expect(child_class.all.length).to be 2
+    expect(child_class.where(title: 'One').length).to be 0
   end
 end
