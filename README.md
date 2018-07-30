@@ -6,13 +6,27 @@ This is a demo API built with Rails 5, representing a Trello-like application.
 
 ## Models
 
-Board - Has many columns.
+### Board 
 
-Column - Has many tasks. Belongs to a board. Has an unique position within a board. A column maybe rearranged within a board.
+- Has many columns.
 
-Task - Has many comments. Belongs to a column.. Has an unique position within a column. A task maybe rearranged within a column.
+### Column 
 
-Comment - Belongs to a task.
+- Has many tasks. 
+- Belongs to a board. 
+- Has an unique position within a board. 
+- A column maybe rearranged within a board.
+
+### Task 
+
+- Has many comments. 
+- Belongs to a column.
+- Has an unique position within a column. 
+- A task maybe rearranged within a column.
+
+### Comment 
+
+- Belongs to a task.
 
 ## Installation
 
