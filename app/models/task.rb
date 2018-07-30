@@ -2,7 +2,7 @@ class Task < ApplicationRecord
   include Positionable
 
   validates :position, numericality: { only_integers: true }
-  validate :valid_position, if: proc { column }
+  validate :valid_position, if: proc { column } # validate if it has a column
   validates_presence_of :title, :name, :column_id, :position
 
   has_many :comments, dependent: :destroy

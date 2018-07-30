@@ -2,7 +2,7 @@ class Column < ApplicationRecord
   include Positionable
 
   validates :position, numericality: { only_integers: true }
-  validate :valid_position, if: proc { board }
+  validate :valid_position, if: proc { board } # validate position if it has a board
   validates_presence_of :name, :title, :board_id, :position
 
   has_many :tasks, -> { order 'position ASC' }, dependent: :destroy

@@ -1,23 +1,49 @@
-Project: Boards APIs.
+# Boards API
 
-You have to implement using the following technologies:
+## About
 
-- API - any backend framework similar to RoR
-  (You are free to choose any version you want)
+This is a demo API built with Rails 5, representing a Trello-like application.
 
-The goal of the project is to implement the APIs for a product similar to trello.
+## Models
 
-- boards APIs - CRUD operations (each board has a name / title)
-- columns APIs - CRUD operations (each column belongs to a board and will have a name / title)
-- tasks APIs - CRUD operations (each task belongs to a column and will have a name / title)
-- comments APIs - CRUD operations (each comment belongs to a task and will have a content)
-- data should be persisted in a DB
+Board - Has many columns.
 
-Should implement a sort order for columns and tasks to allow reordering of items from an application that will use this API (order must be persisted in the DB)
-Please add also auth mechanism (all API actions can be performed ONLY after checking call is authorized).
+Column - Has many tasks. Belongs to a board. Has an unique position within a board. A column maybe rearranged within a board.
 
-Once it's ready please give us the link to the github repo. (Github repo should have a readme in which you explain how to install / run everything locally)
-We will analyze the code quality / patterns used / validations / unit tests / etc.
+Task - Has many comments. Belongs to a column.. Has an unique position within a column. A task maybe rearranged within a column.
 
-In case you have any questions, please let me know.
-Thanks!
+Comment - Belongs to a task.
+
+## Installation
+
+Postgres is required.
+
+Clone this repository.
+
+CD into the directory.
+
+Ensure that Postgres is running.
+
+Run the following commands:
+
+```
+bundle
+rails db:create
+rails db:migrate
+```
+
+To run the app locally, within the directory:
+
+`rails s`
+
+The host will be `http://localhost:3000`
+
+To run tests:
+
+`rspec`
+
+## Authorization
+
+An authorization bearer token within the http request headers is required for requests to all endpoints. Since this is a demo, here is the token:
+
+> ehzLoAaX7hVUxJ2D3vLkxQ
