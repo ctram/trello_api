@@ -20,8 +20,8 @@ module Positionable
   
     if new_position < 0
       new_position = 0
-    elsif new_position > num_items - 1
-      new_position = num_items - 1
+    elsif new_position > num_items
+      new_position = num_items
     end
   
     return true if new_position == orig_position
