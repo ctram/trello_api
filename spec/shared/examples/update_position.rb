@@ -2,9 +2,9 @@ require_relative '../contexts/authorization_headers'
 
 RSpec.shared_examples 'update position' do |child_class, parent_type|
   include_context 'authorization headers'
-  
+
   let(:parent) { FactoryBot.create parent_type }
-  
+
   before(:example) do
     parent_name = parent.class.to_s.downcase
 
