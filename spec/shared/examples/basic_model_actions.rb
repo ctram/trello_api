@@ -1,4 +1,4 @@
-RSpec.shared_examples 'basic model_class actions' do |model_class|
+RSpec.shared_examples 'basic model actions' do |model_class|
   let(:name) { 'My Name' }
   let(:title) { 'My Title' }
   let(:instance) { model_class.create(name: name, title: title) }

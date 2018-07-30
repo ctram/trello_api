@@ -30,7 +30,7 @@ RSpec.shared_examples 'CRUD actions' do |child_class, parent_type = nil|
     send("#{object.class.to_s.downcase}_url", object.id)
   end
 
-  describe 'check authorization' do
+  describe 'authorization' do
     include_examples 'check authorization', :index, child_class
     include_examples 'check authorization', :create, child_class
     include_examples 'check authorization', :show, child_class
